@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+   
+	<script src="setting.js"></script>
+    <script src="HTTPlink.js"></script>
+ <script>
+     var myObj = {
+        "resourceType": "Patient",
+        "name": [
+          {  
+            "text": "林小妹",
+              "family": "",
+              "given": [""]
+          }
+         ],
+         "gender": "",
+         "birthDate": "1924-10-10",      
+         "managingOrganization": {
+            "reference": "Organization/2907171"
+             //"reference": "Organization/2560669"
+         } 
+     };
+     
+	 
+   function postData() {
+     /*   var data = myObj.valueQuantity.value;
+       alert(data);  */
+      // alert("aaaa");
+       myObj.name[0].family = document.getElementById("familyName").value;
+       myObj.name[0].given[0] = document.getElementById("givenName").value;
+       myObj.name[0].text =  myObj.name[0].family + myObj.name[0].given[0];
+       myObj.birthDate = document.getElementById("birthDate").value;
+
+      if(document.getElementById("genderMale").checked == true)
+           {myObj.gender = "male";    }
+       else if(document.getElementById("genderFemale").checked == true)
+           {myObj.gender = "female";    }  
+
+       var jsonStr = JSON.stringify(myObj);
+       alert(jsonStr);
+
+       var apiURL;
+       apiURL = FHIRrootURL + '/' + "Patient";
+      // alert(apiURL);
+       HTTPPostData(apiURL, jsonStr);
+     
+	
+
+	}
+
+
+</script>	
+<body style="height: 780px">
+      <h3>新增(上傳)病人基本資料</h3>
+      Family name: <input type="text" id="familyName" />  <br/> <br/>
+      Given  name: <input type="text" id="givenName" />  <br/>
+      <br/>
+      Gender: 
+      <input type="radio" name="gender" id="genderMale">男
+      <input type="radio" name="gender" id="genderFemale">女<br/><br/>
+      BirthDate: <input type="text" id="birthDate" /> (Eg. 1924-10-10)<br/><br/>
+      <input id="Button1" onclick="postData()"  type="button" value="postData" />
+</body>
+
+</html>
